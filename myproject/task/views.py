@@ -3,9 +3,11 @@ from django.http import HttpResponse,JsonResponse
 from rest_framework.parsers import JSONParser
 from .models import Article
 from .models import Articles
+
 from .serializers import ArticleSerializer
 from .serializers import ArticlesSerializer
 from .serializers import Generic_newSerializer
+
 # from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -14,6 +16,10 @@ from rest_framework.views import APIView
 from .models import Generic_new
 from rest_framework import generics
 from rest_framework import mixins
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import viewsets
+from django.shortcuts import get_list_or_404, get_object_or_404
 # Create your views here.
 
 @api_view(['GET','POST'])
@@ -101,28 +107,20 @@ class ArticlesDetail(APIView):
         
             
 class GenericAPIView(
-
                 generics.GenericAPIView,
                 mixins.ListModelMixin,
                 mixins.CreateModelMixin,
-                
                 mixins.RetrieveModelMixin,
-                
                 ):
     
     serializer_class = Generic_newSerializer
     queryset =  Generic_new.objects.all()
+    # authentication_classes = [SessionAuthentication, BasicAuthentication]
+    # permission_classes = [IsAuthenticated]
     
-    
-    
-    def get(self,request,id=None):
-        
-        if id:
-            return self.retrieve(request)
-        else:
-            return self.list(request)
+    def get(self,request):
+        return self.list(request)
             
-       
     def post(self,request):
        return self.create(request)
 
@@ -130,12 +128,14 @@ class GenericAPIView(
     
     
 class GenAPIView(generics.GenericAPIView,mixins.DestroyModelMixin,mixins.UpdateModelMixin,mixins.RetrieveModelMixin):
+
     serializer_class = Generic_newSerializer
     queryset = Generic_new.objects.all()
+    # authentication_classes = [SessionAuthentication , BasicAuthentication]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     lookup_field = 'id'
-    
     def get(self,request,id=None):
-        
         if id:
             return self.retrieve(request)
         else:
@@ -148,6 +148,17 @@ class GenAPIView(generics.GenericAPIView,mixins.DestroyModelMixin,mixins.UpdateM
     
     def delete(self,request,id):
         return self.destroy(request,id)
+
+
+
+
+    # def create(self, request):
+
+
+
+
+
+
     
         
     

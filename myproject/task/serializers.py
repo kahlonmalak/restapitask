@@ -28,4 +28,5 @@ class ArticlesSerializer(serializers.ModelSerializer):
 class Generic_newSerializer(serializers.ModelSerializer):
     class Meta :
         model = Generic_new
-        fields = "__all__"      
+        fields = "__all__"
+
