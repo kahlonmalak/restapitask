@@ -21,3 +21,13 @@ class Articles(models.Model):
    
     def __str__(self):
         return self.name
+    
+class Generic_new(models.Model):
+        id = models.IntegerField(primary_key=True)
+        first_name = models.CharField( max_length=50)
+        pin_code=models.IntegerField()
+        contact_number = models.IntegerField()
+        
+        def __str__(self):
+            return self.first_name
+        

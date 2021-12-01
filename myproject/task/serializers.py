@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Article
-from .models import Articles
+from .models import Articles,Generic_new
 
 class ArticleSerializer(serializers.Serializer):
     id = serializers.IntegerField()
@@ -24,3 +24,8 @@ class ArticlesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Articles
         fields ="__all__"
+        
+class Generic_newSerializer(serializers.ModelSerializer):
+    class Meta :
+        model = Generic_new
+        fields = "__all__"      
