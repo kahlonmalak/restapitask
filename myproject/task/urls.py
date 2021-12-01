@@ -10,6 +10,6 @@ urlpatterns = [
     path('articles/',ArticlesAPIView.as_view()),
     path('Detail/<int:id>/', ArticlesDetail.as_view()),
     path('generics/',GenericAPIView.as_view()),
-    path('delete/<int:id>/',GenAPIView.as_view()),
+    path('gen/<int:id>/',GenAPIView.as_view()),
   
 ]   

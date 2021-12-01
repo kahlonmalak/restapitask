@@ -101,11 +101,11 @@ class ArticlesDetail(APIView):
         
             
 class GenericAPIView(
-    
+
                 generics.GenericAPIView,
                 mixins.ListModelMixin,
                 mixins.CreateModelMixin,
-                mixins.UpdateModelMixin,
+                
                 mixins.RetrieveModelMixin,
                 
                 ):
@@ -113,7 +113,7 @@ class GenericAPIView(
     serializer_class = Generic_newSerializer
     queryset =  Generic_new.objects.all()
     
-    lookup_field = 'id'
+    
     
     def get(self,request,id=None):
         
@@ -124,16 +124,28 @@ class GenericAPIView(
             
        
     def post(self,request):
-        return self.create(request)
-    
+       return self.create(request)
 
+
+    
+    
+class GenAPIView(generics.GenericAPIView,mixins.DestroyModelMixin,mixins.UpdateModelMixin,mixins.RetrieveModelMixin):
+    serializer_class = Generic_newSerializer
+    queryset = Generic_new.objects.all()
+    lookup_field = 'id'
+    
+    def get(self,request,id=None):
+        
+        if id:
+            return self.retrieve(request)
+        else:
+            return self.list(request)
+            
+    
     def put (self,request,id=None):
         return self.update(request,id)
     
     
-class GenAPIView(generics.GenericAPIView,mixins.DestroyModelMixin):
-    queryset = Generic_new.objects.all()
-    lookup_field = 'id'
     def delete(self,request,id):
         return self.destroy(request,id)
     
